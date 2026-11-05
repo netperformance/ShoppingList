@@ -1,0 +1,59 @@
+# Pakete (werden mit npm install neu geladen)
+node_modules/
+
+# Expo und Metro
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.metro-health-check*
+
+# Android-Projekt (erzeugt build-apk.sh bei jedem Bau neu)
+/android
+/ios
+.kotlin/
+.gradle/
+*.orig.*
+
+# Fertige App
+apk/
+*.apk
+*.aab
+
+# Signierschlüssel und Passwort, niemals veröffentlichen
+signing/
+*.keystore
+*.jks
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+
+# Python (beim Erzeugen des Katalogs)
+__pycache__/
+*.pyc
+
+# Archive und Zwischenstände
+*.tgz
+*.zip
+
+# Lokale Umgebungsvariablen
+.env
+.env*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Protokolle
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.log
+
+# Betriebssystem und Editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
