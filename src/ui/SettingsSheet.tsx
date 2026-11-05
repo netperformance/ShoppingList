@@ -225,9 +225,6 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
         <Row icon="auto-fix-high" label={t.learned} detail={String(learned)} chevron onPress={() => setView({ kind: 'learned' })} />
         <Row icon="delete-forever" label={t.deleteAllData} danger onPress={confirmReset} last />
       </View>
-      <Text style={[styles.foot, { color: c.text2 }]}>
-        {t.backupFoot}
-      </Text>
 
       <Text style={[styles.about, { color: c.text2 }]}>
         {t.appName} {Constants.expoConfig?.version ?? ''} · {t.about}
