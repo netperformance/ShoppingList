@@ -1,6 +1,28 @@
 # Shopping List
 
-[English](#english) · [Deutsch](#deutsch)
+<p align="center">
+  <img src="docs/images/banner.jpg" alt="Shopping List: a shopping list for Android without account, cloud or permissions">
+</p>
+
+<p align="center">
+  <b>A shopping list for Android that keeps your data on your phone.</b><br>
+  No account · No cloud · No permissions · English and German
+</p>
+
+<p align="center">
+  <a href="https://github.com/netperformance/ShoppingList/releases">Download APK</a> ·
+  <a href="#english">English</a> ·
+  <a href="#deutsch">Deutsch</a> ·
+  <a href="LICENSE">MIT License</a>
+</p>
+
+<p align="center">
+  <img src="docs/images/screenshots-list.png" width="100%" alt="Filled shopping list, suggestions while typing and the list in dark mode">
+</p>
+
+<p align="center">
+  <img src="docs/images/screenshots-settings.png" width="66%" alt="Settings with appearance, language, categories and backup">
+</p>
 
 ## English
 
