@@ -13,8 +13,8 @@ import { ReorderableItems } from './ReorderableItems'
 import { SettingsSheet } from './SettingsSheet'
 import { SITE_URL } from './site'
 import { SnackbarHost, useSnackbar } from './Snackbar'
-import type { Prefs } from './prefs'
-import { useColors } from './theme'
+import { FONT_STEPS, type Prefs } from './prefs'
+import { useColors, useFont, useScaled } from './theme'
 import { useKeyboardTop } from './useKeyboard'
 import { useListStore, useSnapshot } from './useStore'
 
@@ -26,6 +26,8 @@ interface Props {
 
 export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const insets = useSafeAreaInsets()
   const keyboardTop = useKeyboardTop()
   const store = useListStore()
@@ -88,6 +90,10 @@ export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
   }, [store, snack, t])
 
   const sortAlphabetically = () => {
+    if (open.length < 2) {
+      snack({ message: t.nothingToSort })
+      return
+    }
     const before = store.sortAlphabetically(prefs.grouped)
     haptic('press')
     snack({
@@ -96,6 +102,16 @@ export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
     })
   }
   const reorder = useCallback((ids: string[]) => store.reorder(ids), [store])
+
+  const font = (delta: number) => {
+    const step = Math.max(0, Math.min(FONT_STEPS.length - 1, prefs.fontStep + delta))
+    if (step === prefs.fontStep) return
+    haptic('tick')
+    onPref('fontStep', step)
+    snack({ message: t.fontSize(Math.round(FONT_STEPS[step] * 100)) })
+  }
+  const smallest = prefs.fontStep === 0
+  const largest = prefs.fontStep === FONT_STEPS.length - 1
 
   const toggle = useCallback((id: string) => store.toggle(id), [store])
   const edit = useCallback((id: string) => setEditId(id), [])
@@ -201,7 +217,7 @@ export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
             <View style={styles.sectionHead}>
               <Text style={[styles.sectionLabel, { color: c.text2, flex: 1 }]}>{t.inCart} · {checked.length}</Text>
               <Pressable onPress={clearChecked} hitSlop={10} accessibilityRole="button">
-                <Text style={{ color: c.accent, fontWeight: '600', fontSize: 15 }}>{t.clear}</Text>
+                <Text style={{ color: c.accent, fontWeight: '600', fontSize: f(15) }}>{t.clear}</Text>
               </Pressable>
             </View>
             <View style={[styles.card, { backgroundColor: c.card }]}>
@@ -221,17 +237,38 @@ export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
             </Text>
           </Pressable>
         </Animated.View>
-        {open.length > 1 && (
-          <Pressable
-            onPress={sortAlphabetically}
-            style={styles.menu}
-            android_ripple={{ color: c.ripple, borderless: true, radius: 22 }}
-            accessibilityLabel={t.sortAlphabetically}
-            accessibilityRole="button"
-          >
-            <MaterialIcons name="sort-by-alpha" size={24} color={c.text} />
-          </Pressable>
-        )}
+        <Pressable
+          onPress={() => font(-1)}
+          disabled={smallest}
+          style={styles.menu}
+          android_ripple={{ color: c.ripple, borderless: true, radius: 22 }}
+          accessibilityLabel={t.fontSmaller}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: smallest }}
+        >
+          <Text style={[styles.fontIcon, { fontSize: 15, color: smallest ? c.text3 : c.text }]}>A−</Text>
+        </Pressable>
+        <Pressable
+          onPress={() => font(1)}
+          disabled={largest}
+          style={styles.menu}
+          android_ripple={{ color: c.ripple, borderless: true, radius: 22 }}
+          accessibilityLabel={t.fontLarger}
+          accessibilityRole="button"
+          accessibilityState={{ disabled: largest }}
+        >
+          <Text style={[styles.fontIcon, { fontSize: 21, color: largest ? c.text3 : c.text }]}>A+</Text>
+        </Pressable>
+        {/* Immer sichtbar und in voller Farbe. Ohne zwei offene Einträge erklärt eine Meldung, warum nichts passiert. */}
+        <Pressable
+          onPress={sortAlphabetically}
+          style={styles.menu}
+          android_ripple={{ color: c.ripple, borderless: true, radius: 22 }}
+          accessibilityLabel={t.sortAlphabetically}
+          accessibilityRole="button"
+        >
+          <MaterialIcons name="sort-by-alpha" size={24} color={c.text} />
+        </Pressable>
         <Pressable
           onPress={() => setSettingsOpen(true)}
           style={styles.menu}
@@ -270,12 +307,13 @@ export function MainScreen({ prefs, onPref, keepOnReset }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   fill: { flex: 1 },
   topBar: { position: 'absolute', top: 0, left: 0, right: 0, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 4 },
   topTitleWrap: { flex: 1, marginLeft: 16 },
   topTitle: { fontSize: 20, fontWeight: '600' },
   menu: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center' },
+  fontIcon: { fontWeight: '700', letterSpacing: -0.5 },
   titleBlock: { paddingTop: 4, paddingBottom: 4 },
   titleRow: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', maxWidth: '100%' },
   title: { fontSize: 34, fontWeight: '700', letterSpacing: -0.5, flexShrink: 1 },

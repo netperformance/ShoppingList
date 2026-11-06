@@ -4,7 +4,7 @@ import { Animated, PanResponder, Pressable, StyleSheet, Text, View, type Gesture
 import type { Item } from '../domain/model'
 import { haptic } from './haptics'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useScaled } from './theme'
 
 interface Props {
   item: Item
@@ -27,6 +27,7 @@ const DELETE_SHARE = 0.35
  */
 export const ItemRow = memo(function ItemRow({ item, last, flash, onToggle, onEdit, onDelete, onSwipeStart, onSwipeEnd, dragHandlers }: Props) {
   const c = useColors()
+  const styles = useScaled(baseStyles)
   const t = useT()
   const { name, quantity, note, checked } = item.fields
   const [visualChecked, setVisualChecked] = useState(checked)
@@ -169,7 +170,7 @@ export const ItemRow = memo(function ItemRow({ item, last, flash, onToggle, onEd
   )
 })
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   wrap: { overflow: 'hidden' },
   delete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 22, gap: 6 },
   deleteText: { color: '#fff', fontWeight: '600', fontSize: 15 },

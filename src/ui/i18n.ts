@@ -17,6 +17,9 @@ const de = {
   inCart: 'IM WAGEN',
   clear: 'Leeren',
   sortAlphabetically: 'Alphabetisch sortieren',
+  fontSmaller: 'Schrift verkleinern',
+  fontLarger: 'Schrift vergrößern',
+  fontSize: (percent: number) => `Schrift ${percent} %`,
   settings: 'Einstellungen',
   qtyChanged: (name: string) => `${name}: Menge geändert`,
   alreadyOnList: (name: string) => `${name} steht schon auf der Liste`,
@@ -27,6 +30,7 @@ const de = {
   removed: (n: number) => (n === 1 ? '1 Eintrag entfernt' : `${n} Einträge entfernt`),
   sortedInCategories: 'Innerhalb der Kategorien alphabetisch sortiert',
   sorted: 'Alphabetisch sortiert',
+  nothingToSort: 'Zum Sortieren braucht die Liste mindestens zwei offene Einträge',
 
   // Eingabe
   addPlaceholder: 'Was brauchst du?',
@@ -151,6 +155,9 @@ const en: Strings = {
   inCart: 'IN THE CART',
   clear: 'Clear',
   sortAlphabetically: 'Sort alphabetically',
+  fontSmaller: 'Smaller text',
+  fontLarger: 'Larger text',
+  fontSize: (percent) => `Text ${percent} %`,
   settings: 'Settings',
   qtyChanged: (name) => `${name}: quantity changed`,
   alreadyOnList: (name) => `${name} is already on the list`,
@@ -161,6 +168,7 @@ const en: Strings = {
   removed: (n) => (n === 1 ? '1 item removed' : `${n} items removed`),
   sortedInCategories: 'Sorted alphabetically within categories',
   sorted: 'Sorted alphabetically',
+  nothingToSort: 'Sorting needs at least two open items on the list',
 
   addPlaceholder: 'What do you need?',
   addItem: 'Add item',

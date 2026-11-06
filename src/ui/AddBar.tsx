@@ -7,7 +7,7 @@ import { normalize } from '../domain/normalize'
 import { parseInput } from '../domain/parse'
 import { suggest } from '../domain/search'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useScaled } from './theme'
 
 export type AddRequest = { name: string; quantity: string; categoryId?: string }
 
@@ -38,6 +38,7 @@ export const ADD_BAR_HEIGHT = 64
  */
 export function AddBar({ products, lang, openKeys, top, collapse, scrollY, scrollOffset, screenHeight, keyboardOverlap, onAdd }: Props) {
   const c = useColors()
+  const styles = useScaled(baseStyles)
   const t = useT()
   const [text, setText] = useState('')
   const [focused, setFocused] = useState(false)
@@ -181,7 +182,7 @@ function highlight(name: string, query: string, color: string) {
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   bar: {
     height: ADD_BAR_HEIGHT,
     flexDirection: 'row',
@@ -191,7 +192,7 @@ const styles = StyleSheet.create({
   },
   line: { position: 'absolute', left: 0, right: 0, bottom: 0, height: StyleSheet.hairlineWidth },
   field: { flex: 1, height: 48, borderRadius: 24, borderWidth: 1.5, flexDirection: 'row', alignItems: 'center' },
-  input: { flex: 1, height: 48, paddingLeft: 18, paddingRight: 8, fontSize: 17 },
+  input: { flex: 1, height: 48, paddingLeft: 18, paddingRight: 8, paddingVertical: 0, fontSize: 17 },
   clear: { paddingHorizontal: 10 },
   add: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', elevation: 2 },
   panelWrap: { paddingHorizontal: 12, paddingTop: 4 },

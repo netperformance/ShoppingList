@@ -6,7 +6,7 @@ import { searchIcons } from '../domain/emoji'
 import { haptic } from './haptics'
 import { useSnackbar } from './Snackbar'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useFont, useScaled } from './theme'
 import { useListStore, useSnapshot } from './useStore'
 
 const NEW_ICON = '🛒'
@@ -26,6 +26,8 @@ interface Props {
  */
 export function CategoryEditor({ id, commitRef, onDone }: Props) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const store = useListStore()
   const snapshot = useSnapshot()
   const snack = useSnackbar()
@@ -153,14 +155,14 @@ export function CategoryEditor({ id, commitRef, onDone }: Props) {
           }}
           accessibilityRole="button"
         >
-          <Text style={{ color: name.trim() && !duplicate ? c.onAccent : c.text3, fontSize: 16, fontWeight: '600' }}>{t.createCategory}</Text>
+          <Text style={{ color: name.trim() && !duplicate ? c.onAccent : c.text3, fontSize: f(16), fontWeight: '600' }}>{t.createCategory}</Text>
         </Pressable>
       )}
 
       {id && id !== FALLBACK_CATEGORY && (
         <Pressable style={[styles.delete, { backgroundColor: c.card }]} android_ripple={{ color: c.ripple }} onPress={remove} accessibilityRole="button">
           <MaterialIcons name="delete-outline" size={22} color={c.danger} />
-          <Text style={{ color: c.danger, fontSize: 16, fontWeight: '500' }}>{t.deleteCategory}</Text>
+          <Text style={{ color: c.danger, fontSize: f(16), fontWeight: '500' }}>{t.deleteCategory}</Text>
         </Pressable>
       )}
       {id === FALLBACK_CATEGORY && (
@@ -177,14 +179,14 @@ export function CategoryEditor({ id, commitRef, onDone }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   label: { fontSize: 12, fontWeight: '700', letterSpacing: 0.6, marginTop: 18, marginBottom: 8, marginLeft: 4 },
   nameRow: { flexDirection: 'row', gap: 8 },
   preview: { width: 50, height: 50, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   previewEmoji: { fontSize: 26 },
-  field: { height: 50, borderRadius: 12, paddingHorizontal: 16, fontSize: 17 },
+  field: { height: 50, borderRadius: 12, paddingHorizontal: 16, paddingVertical: 0, fontSize: 17 },
   search: { flexDirection: 'row', alignItems: 'center', gap: 8, height: 48, borderRadius: 12, paddingHorizontal: 14 },
-  searchInput: { flex: 1, height: 48, fontSize: 16 },
+  searchInput: { flex: 1, height: 48, paddingVertical: 0, fontSize: 16 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', marginTop: 8, padding: 6, borderRadius: 16 },
   cell: { width: '12.5%', aspectRatio: 1, alignItems: 'center', justifyContent: 'center', borderRadius: 10, borderWidth: 2, borderColor: 'transparent' },
   cellEmoji: { fontSize: 24 },

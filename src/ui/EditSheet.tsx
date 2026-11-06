@@ -5,7 +5,7 @@ import type { Item } from '../domain/model'
 import { stepQuantity } from '../domain/parse'
 import { Sheet } from './Sheet'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useFont, useScaled } from './theme'
 import { useSnapshot } from './useStore'
 
 export type Draft = { name: string; quantity: string; note: string; categoryId: string }
@@ -22,6 +22,8 @@ interface Props {
 /** Bearbeiten eines Eintrags. Änderungen werden beim Schließen übernommen. */
 export function EditSheet({ item, onSave, onDelete, onClose }: Props) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const t = useT()
   const { categories, categoryOrder } = useSnapshot()
   const [draft, setDraft] = useState<Draft | null>(null)
@@ -74,7 +76,7 @@ export function EditSheet({ item, onSave, onDelete, onClose }: Props) {
                   style={[styles.quickChip, { backgroundColor: active ? c.accent : c.card }]}
                   accessibilityState={{ selected: active }}
                 >
-                  <Text style={{ color: active ? c.onAccent : c.text2, fontSize: 14, fontWeight: active ? '600' : '400' }}>{q}</Text>
+                  <Text style={{ color: active ? c.onAccent : c.text2, fontSize: f(14), fontWeight: active ? '600' : '400' }}>{q}</Text>
                 </Pressable>
               )
             })}
@@ -107,7 +109,7 @@ export function EditSheet({ item, onSave, onDelete, onClose }: Props) {
                   accessibilityState={{ selected: active }}
                 >
                   <Text style={styles.catEmoji}>{cat.emoji}</Text>
-                  <Text style={{ flex: 1, color: c.text, fontSize: 14, fontWeight: active ? '600' : '400' }}>{cat.name}</Text>
+                  <Text style={{ flex: 1, color: c.text, fontSize: f(14), fontWeight: active ? '600' : '400' }}>{cat.name}</Text>
                 </Pressable>
               )
             })}
@@ -125,7 +127,7 @@ export function EditSheet({ item, onSave, onDelete, onClose }: Props) {
             }}
           >
             <MaterialIcons name="delete-outline" size={22} color={c.danger} />
-            <Text style={{ color: c.danger, fontSize: 16, fontWeight: '500' }}>{t.deleteItem}</Text>
+            <Text style={{ color: c.danger, fontSize: f(16), fontWeight: '500' }}>{t.deleteItem}</Text>
           </Pressable>
         </>
       )}
@@ -135,6 +137,7 @@ export function EditSheet({ item, onSave, onDelete, onClose }: Props) {
 
 function StepButton({ icon, label, onPress }: { icon: 'add' | 'remove'; label: string; onPress: () => void }) {
   const c = useColors()
+  const styles = useScaled(baseStyles)
   return (
     <Pressable
       onPress={onPress}
@@ -148,9 +151,9 @@ function StepButton({ icon, label, onPress }: { icon: 'add' | 'remove'; label: s
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   label: { fontSize: 12, fontWeight: '700', letterSpacing: 0.6, marginTop: 18, marginBottom: 8, marginLeft: 4 },
-  field: { height: 50, borderRadius: 12, paddingHorizontal: 16, fontSize: 17 },
+  field: { height: 50, borderRadius: 12, paddingHorizontal: 16, paddingVertical: 0, fontSize: 17 },
   stepper: { flexDirection: 'row', gap: 8 },
   qtyField: { flex: 1, minWidth: 0, textAlign: 'center' },
   step: { width: 50, height: 50, borderRadius: 12, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },

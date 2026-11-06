@@ -8,7 +8,7 @@ import { normalize } from '../domain/normalize'
 import { haptic } from './haptics'
 import { useSnackbar } from './Snackbar'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useFont, useScaled } from './theme'
 import { useListStore, useSnapshot } from './useStore'
 
 /**
@@ -18,6 +18,8 @@ import { useListStore, useSnapshot } from './useStore'
  */
 export function LearnedProducts() {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const store = useListStore()
   const snapshot = useSnapshot()
   const snack = useSnackbar()
@@ -89,10 +91,10 @@ export function LearnedProducts() {
             >
               <Text style={styles.emoji}>{cat.emoji}</Text>
               <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 16, color: c.text }} numberOfLines={1}>
+                <Text style={{ fontSize: f(16), color: c.text }} numberOfLines={1}>
                   {p.fields.name}
                 </Text>
-                <Text style={{ fontSize: 13, color: c.text2 }} numberOfLines={1}>
+                <Text style={{ fontSize: f(13), color: c.text2 }} numberOfLines={1}>
                   {cat.name}
                 </Text>
               </View>
@@ -116,15 +118,15 @@ export function LearnedProducts() {
 
       <Pressable style={[styles.delete, { backgroundColor: c.card }]} android_ripple={{ color: c.ripple }} onPress={forgetAll} accessibilityRole="button">
         <MaterialIcons name="auto-fix-off" size={22} color={c.danger} />
-        <Text style={{ color: c.danger, fontSize: 16, fontWeight: '500' }}>{t.deleteAllCount(all.length)}</Text>
+        <Text style={{ color: c.danger, fontSize: f(16), fontWeight: '500' }}>{t.deleteAllCount(all.length)}</Text>
       </Pressable>
     </>
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   search: { flexDirection: 'row', alignItems: 'center', gap: 8, height: 48, borderRadius: 12, paddingHorizontal: 14, marginTop: 8, marginBottom: 12 },
-  searchInput: { flex: 1, height: 48, fontSize: 16 },
+  searchInput: { flex: 1, height: 48, paddingVertical: 0, fontSize: 16 },
   card: { borderRadius: 16, overflow: 'hidden', marginTop: 8 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 58, paddingLeft: 16, paddingRight: 4 },
   emoji: { fontSize: 20, width: 26, textAlign: 'center' },

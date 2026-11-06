@@ -120,7 +120,8 @@ describe('ListStore', () => {
     expect((await loadPrefs(repo)).theme).toBe('light')
     await savePref(repo, 'theme', 'dark')
     await savePref(repo, 'grouped', false)
-    expect(await loadPrefs(new SqliteRepository(nodeSqlite(file)))).toEqual({ theme: 'dark', grouped: false, language: 'de' })
+    await savePref(repo, 'fontStep', 3)
+    expect(await loadPrefs(new SqliteRepository(nodeSqlite(file)))).toEqual({ theme: 'dark', grouped: false, language: 'de', fontStep: 3 })
     // Ohne gespeicherte Sprache gilt die des Handys, eine gewählte Sprache gewinnt
     expect((await loadPrefs(repo, 'en')).language).toBe('en')
     await savePref(repo, 'language', 'en')
@@ -128,7 +129,7 @@ describe('ListStore', () => {
     store.add('Kaffee')
     await store.reset({ keepMeta: PREF_KEYS })
     expect(store.getSnapshot().open).toHaveLength(0)
-    expect(await loadPrefs(new SqliteRepository(nodeSqlite(file)))).toEqual({ theme: 'dark', grouped: false, language: 'en' })
+    expect(await loadPrefs(new SqliteRepository(nodeSqlite(file)))).toEqual({ theme: 'dark', grouped: false, language: 'en', fontStep: 3 })
   })
 
   it('arbeitet auf Englisch mit englischem Katalog und englischen Kategorien', async () => {

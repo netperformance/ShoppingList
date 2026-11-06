@@ -10,9 +10,9 @@ import { ListStore } from './src/store/store'
 import { MainScreen } from './src/ui/MainScreen'
 import { deviceLanguage } from './src/ui/deviceLanguage'
 import { LanguageContext, STRINGS } from './src/ui/i18n'
-import { loadPrefs, PREF_KEYS, savePref, type Prefs } from './src/ui/prefs'
+import { FONT_STEPS, loadPrefs, PREF_KEYS, savePref, type Prefs } from './src/ui/prefs'
 import { SnackbarProvider } from './src/ui/Snackbar'
-import { dark, light, ThemeContext, type ThemeMode } from './src/ui/theme'
+import { dark, FontScaleContext, light, ThemeContext, type ThemeMode } from './src/ui/theme'
 import { StoreContext } from './src/ui/useStore'
 
 SplashScreen.preventAutoHideAsync().catch(() => {})
@@ -78,14 +78,16 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeContext.Provider value={colors}>
-        <LanguageContext.Provider value={STRINGS[prefs.language]}>
-          <StoreContext.Provider value={state.store}>
-            <SnackbarProvider>
-              <StatusBar style={isDark ? 'light' : 'dark'} />
-              <MainScreen prefs={prefs} onPref={change} keepOnReset={PREF_KEYS} />
-            </SnackbarProvider>
-          </StoreContext.Provider>
-        </LanguageContext.Provider>
+        <FontScaleContext.Provider value={FONT_STEPS[prefs.fontStep] ?? 1}>
+          <LanguageContext.Provider value={STRINGS[prefs.language]}>
+            <StoreContext.Provider value={state.store}>
+              <SnackbarProvider>
+                <StatusBar style={isDark ? 'light' : 'dark'} />
+                <MainScreen prefs={prefs} onPref={change} keepOnReset={PREF_KEYS} />
+              </SnackbarProvider>
+            </StoreContext.Provider>
+          </LanguageContext.Provider>
+        </FontScaleContext.Provider>
       </ThemeContext.Provider>
     </SafeAreaProvider>
   )

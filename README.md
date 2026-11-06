@@ -43,6 +43,7 @@ The app is available in German and English.
 - **Delete:** Use the trash icon or swipe left. Every deletion can be undone.
 - **Multiple lists:** Tap the list name at the top to switch, create, rename and delete lists (with undo).
 - **Learns as you go:** Frequently bought products move up in the suggestions. Products the app did not know before are remembered with their category and listed under "Learned suggestions" in the settings, where single ones can be deleted.
+- **Text size:** The A− and A+ buttons at the top make the text smaller or larger in five steps (85 to 150 percent). The choice is kept, even after "Delete all data".
 - **Light and dark:** The app starts in light mode. Dark or "Automatic" (follows the phone) can be chosen in the settings. The choice is kept, even after "Delete all data".
 - **German and English:** Until you choose a language, the app follows the phone: German if the phone is set to German (including Austria and Switzerland), English otherwise. The language can be changed at any time under "Language" in the settings. It applies to all texts, the suggestions and the names of the built in categories. Names you gave to categories and lists, and the items on your lists, stay as they are.
 - **Backup:** Save the whole list as a file (via the Android share menu) and restore it later. Restoring merges the backup with the data on the phone.
@@ -160,6 +161,7 @@ Die App gibt es auf Deutsch und Englisch.
 - **Löschen:** Papierkorb rechts am Eintrag oder nach links wischen. Jede Löschung lässt sich zurücknehmen.
 - **Mehrere Listen:** Auf den Listennamen oben tippen. Dort Listen wechseln, anlegen, umbenennen und löschen (mit „Rückgängig“).
 - **Lernt dazu:** Häufig gekaufte Produkte stehen in den Vorschlägen oben. Produkte, die die App noch nicht kannte, merkt sie sich mit ihrer Kategorie. Sie stehen in den Einstellungen unter „Gelernte Vorschläge“ und lassen sich dort einzeln löschen.
+- **Schriftgröße:** Mit A− und A+ oben wird die Schrift in fünf Stufen kleiner oder größer (85 bis 150 Prozent). Die Wahl bleibt gespeichert, auch bei „Alle Daten löschen“.
 - **Hell und dunkel:** Die App startet hell. In den Einstellungen lässt sich Dunkel wählen oder „Automatisch“, dann folgt sie dem Handy. Die Wahl bleibt gespeichert, auch bei „Alle Daten löschen“.
 - **Deutsch und Englisch:** Ohne eigene Wahl richtet sich die Sprache nach dem Handy: Deutsch, wenn das Handy auf Deutsch eingestellt ist (auch Österreich und Schweiz), sonst Englisch. Unter „Sprache“ in den Einstellungen lässt sich jederzeit wechseln. Die Sprache gilt für alle Texte, die Vorschläge und die Namen der mitgelieferten Kategorien. Selbst vergebene Namen von Kategorien und Listen und die Einträge auf den Listen bleiben, wie sie sind.
 - **Sicherung:** Die ganze Liste als Datei speichern (über das Teilen Menü von Android) und wieder einspielen. Beim Einspielen wird die Sicherung mit den Daten auf dem Handy zusammengeführt.

@@ -5,7 +5,7 @@ import { haptic } from './haptics'
 import { Sheet } from './Sheet'
 import { useSnackbar } from './Snackbar'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useFont, useScaled } from './theme'
 import { useListStore, useSnapshot } from './useStore'
 
 interface Props {
@@ -16,6 +16,8 @@ interface Props {
 /** Auswahl der Listen: wechseln, anlegen, umbenennen, löschen. */
 export function ListsSheet({ open, onClose }: Props) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const store = useListStore()
   const { lists, list: active } = useSnapshot()
   const snack = useSnackbar()
@@ -140,7 +142,7 @@ export function ListsSheet({ open, onClose }: Props) {
           />
           {!!newName.trim() && (
             <Pressable onPress={create} hitSlop={8} style={styles.addButton} accessibilityRole="button">
-              <Text style={{ color: c.accent, fontWeight: '600', fontSize: 16 }}>{t.create}</Text>
+              <Text style={{ color: c.accent, fontWeight: '600', fontSize: f(16) }}>{t.create}</Text>
             </Pressable>
           )}
         </View>
@@ -149,7 +151,7 @@ export function ListsSheet({ open, onClose }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   card: { borderRadius: 16, overflow: 'hidden', marginTop: 4 },
   row: { flexDirection: 'row', alignItems: 'center', minHeight: 54, paddingRight: 4 },
   pick: { flex: 1, flexDirection: 'row', alignItems: 'center', alignSelf: 'stretch' },

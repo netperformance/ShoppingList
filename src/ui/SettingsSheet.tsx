@@ -17,7 +17,7 @@ import { REPO_URL, SITE_URL } from './site'
 import { Sheet } from './Sheet'
 import { useSnackbar } from './Snackbar'
 import { useT } from './i18n'
-import { useColors } from './theme'
+import { useColors, useFont, useScaled } from './theme'
 import { useListStore, useSnapshot } from './useStore'
 
 interface Props {
@@ -33,6 +33,8 @@ type View_ = { kind: 'main' } | { kind: 'learned' } | { kind: 'category'; id: st
 
 export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Props) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const store = useListStore()
   const snapshot = useSnapshot()
   const snack = useSnackbar()
@@ -133,6 +135,24 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
 
   return (
     <Sheet open={open} title={t.settings} onClose={close} scrollEnabled={!dragging}>
+      <Text style={[styles.label, { color: c.text2 }]}>{t.language}</Text>
+      <View style={[styles.segmented, { backgroundColor: c.card }]} accessibilityRole="radiogroup">
+        {LANGS.map((value) => {
+          const active = prefs.language === value
+          return (
+            <Pressable
+              key={value}
+              onPress={() => onPref('language', value)}
+              style={[styles.segment, active && { backgroundColor: c.accent }]}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: active }}
+            >
+              <Text style={{ color: active ? c.onAccent : c.text2, fontWeight: '600', fontSize: f(15) }}>{LANGUAGE_NAMES[value]}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
+
       <Text style={[styles.label, { color: c.text2 }]}>{t.appearance}</Text>
       <View style={[styles.segmented, { backgroundColor: c.card }]} accessibilityRole="radiogroup">
         {(
@@ -151,25 +171,7 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
               accessibilityRole="radio"
               accessibilityState={{ checked: active }}
             >
-              <Text style={{ color: active ? c.onAccent : c.text2, fontWeight: '600', fontSize: 15 }}>{label}</Text>
-            </Pressable>
-          )
-        })}
-      </View>
-
-      <Text style={[styles.label, { color: c.text2 }]}>{t.language}</Text>
-      <View style={[styles.segmented, { backgroundColor: c.card }]} accessibilityRole="radiogroup">
-        {LANGS.map((value) => {
-          const active = prefs.language === value
-          return (
-            <Pressable
-              key={value}
-              onPress={() => onPref('language', value)}
-              style={[styles.segment, active && { backgroundColor: c.accent }]}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: active }}
-            >
-              <Text style={{ color: active ? c.onAccent : c.text2, fontWeight: '600', fontSize: 15 }}>{LANGUAGE_NAMES[value]}</Text>
+              <Text style={{ color: active ? c.onAccent : c.text2, fontWeight: '600', fontSize: f(15) }}>{label}</Text>
             </Pressable>
           )
         })}
@@ -184,7 +186,7 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
         accessibilityState={{ checked: prefs.grouped }}
       >
         <MaterialIcons name="view-agenda" size={22} color={c.accent} />
-        <Text style={{ flex: 1, fontSize: 16, color: c.text }}>{t.groupByCategory}</Text>
+        <Text style={{ flex: 1, fontSize: f(16), color: c.text }}>{t.groupByCategory}</Text>
         <Switch
           value={prefs.grouped}
           onValueChange={(v) => onPref('grouped', v)}
@@ -213,7 +215,7 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
         <Text style={[styles.foot, { color: c.text2, flex: 1 }]}>{t.categoriesFoot}</Text>
         {reordered && (
           <Pressable onPress={() => store.setCategoryOrder(defaultOrder)} hitSlop={8}>
-            <Text style={{ color: c.accent, fontWeight: '600', fontSize: 14 }}>{t.reset}</Text>
+            <Text style={{ color: c.accent, fontWeight: '600', fontSize: f(14) }}>{t.reset}</Text>
           </Pressable>
         )}
       </View>
@@ -248,11 +250,13 @@ export function SettingsSheet({ open, onClose, prefs, onPref, keepOnReset }: Pro
 
 function BackLink({ onPress }: { onPress: () => void }) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const t = useT()
   return (
     <Pressable onPress={onPress} hitSlop={8} style={styles.back} accessibilityRole="button" accessibilityLabel={t.backToSettings}>
       <MaterialIcons name="chevron-left" size={24} color={c.accent} />
-      <Text style={{ color: c.accent, fontSize: 16, fontWeight: '600' }}>{t.settings}</Text>
+      <Text style={{ color: c.accent, fontSize: f(16), fontWeight: '600' }}>{t.settings}</Text>
     </Pressable>
   )
 }
@@ -277,6 +281,8 @@ function Row({
   onPress: () => void
 }) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const color = danger ? c.danger : c.accent
   return (
     <Pressable
@@ -287,8 +293,8 @@ function Row({
       accessibilityRole="button"
     >
       <MaterialIcons name={icon} size={22} color={color} />
-      <Text style={{ flex: 1, fontSize: 16, color: danger ? c.danger : c.text }}>{label}</Text>
-      {detail !== undefined && <Text style={{ color: c.text2, fontSize: 15 }}>{detail}</Text>}
+      <Text style={{ flex: 1, fontSize: f(16), color: danger ? c.danger : c.text }}>{label}</Text>
+      {detail !== undefined && <Text style={{ color: c.text2, fontSize: f(15) }}>{detail}</Text>}
       {chevron && <MaterialIcons name="chevron-right" size={22} color={c.text3} style={{ marginRight: -6 }} />}
     </Pressable>
   )
@@ -314,6 +320,8 @@ function CategoryOrder({
   onEdit: (id: string) => void
 }) {
   const c = useColors()
+  const f = useFont()
+  const styles = useScaled(baseStyles)
   const t = useT()
   const [local, setLocal] = useState(order)
   const [dragId, setDragId] = useState<string | null>(null)
@@ -397,7 +405,7 @@ function CategoryOrder({
               accessibilityLabel={t.editNamed(cat.name)}
             >
               <Text style={styles.catEmoji}>{cat.emoji}</Text>
-              <Text style={{ flex: 1, fontSize: 16, color: c.text }} numberOfLines={1}>
+              <Text style={{ flex: 1, fontSize: f(16), color: c.text }} numberOfLines={1}>
                 {cat.name}
               </Text>
             </Pressable>
@@ -411,7 +419,7 @@ function CategoryOrder({
   )
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   label: { fontSize: 12, fontWeight: '700', letterSpacing: 0.6, marginTop: 18, marginBottom: 8, marginLeft: 4 },
   segmented: { flexDirection: 'row', padding: 3, borderRadius: 12, gap: 3 },
   segment: { flex: 1, height: 38, borderRadius: 9, alignItems: 'center', justifyContent: 'center' },
